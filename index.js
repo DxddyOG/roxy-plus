@@ -34,8 +34,7 @@ client.voiceStates = voiceStates;
 const allowedManager = require('./commands/allowedManager');
 
 function isAllowedUser(userId) {
-    // Always allow the bot owner (the user logged in)
-    if (userId === client.user.id) return true;
+    // Only verify against allowed list (Removed automatic self-allow as requested)
     return allowedManager.isAllowed(userId);
 }
 
@@ -294,6 +293,11 @@ client.on('messageCreate', async (message) => {
 
         // --- CALCULATOR SYSTEM (Prefix-less) ---
         if (isAllowedUser(message.author.id)) {
+            // Instagram Manager
+            const igManager = require('./commands/igManager');
+            const igHandled = await igManager.handle(message);
+            if (igHandled) return;
+
             const calculator = require('./commands/calculator');
             // If calculator handled it, return to prevent other command processing (optional, but safe)
             const handled = await calculator.handle(message);
