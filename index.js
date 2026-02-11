@@ -11,6 +11,8 @@ const client = new Client({
 const Lavalink = require('./music/lavalink');
 const queueManager = require('./music/queue');
 
+client.ttsMap = new Map();
+
 // Initialize Lavalink if configured
 let lavalink = null;
 if (process.env.LAVALINK_WS && process.env.LAVALINK_REST && process.env.LAVALINK_PASSWORD) {
@@ -310,6 +312,26 @@ client.on('messageCreate', async (message) => {
             const qrManager = require('./commands/qrManager');
             const qrHandled = await qrManager.handle(message, client, true);
             if (qrHandled) return;
+
+            // --- TTS AUTO-SPEAK SYSTEM ---
+            if (client.ttsMap && client.ttsMap.has(message.guild.id)) {
+                // If TTS is enabled for this guild
+                const bindChannelId = client.ttsMap.get(message.guild.id);
+                // Only speak if in the bound channel (or unrestricted) and NOT a command
+                const prefix = process.env.PREFIX || '!';
+                if (message.channel.id === bindChannelId && !message.content.startsWith(prefix)) {
+                    const ttsCommand = client.commands.get('tts');
+                    if (ttsCommand && ttsCommand.speak) {
+                        try {
+                            await ttsCommand.speak(message, client);
+                        } catch (err) {
+                            console.error('TTS Speak Error:', err);
+                        }
+                        // Don't return, allow logging etc. (or maybe return to prevent other handlers?)
+                        // User said "just convert in tts". We can continue processing (like logs).
+                    }
+                }
+            }
         }
 
         // --- COMMAND HANDLER ---

@@ -69,6 +69,8 @@ module.exports = {
     async execute(message, args, client) {
         if (!message.guild) return message.channel.send('```This command only works in servers```');
 
+        if (client.ttsMap) client.ttsMap.delete(message.guild.id);
+
         const vc = message.member?.voice?.channel;
         if (!vc) return message.channel.send('```You need to be in a voice channel```');
         if (!args.length) return message.channel.send('```Please provide a song name or URL```');

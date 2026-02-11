@@ -15,6 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "@discordjs/core": "^2.4.0",
+    "@discordjs/opus": "^0.10.0",
     "@discordjs/rest": "^2.6.0",
     "@discordjs/voice": "^0.19.0",
     "@discordjs/ws": "^2.0.4",
@@ -26,9 +27,13 @@
     "dotenv": "^17.2.3",
     "ejs": "^3.1.10",
     "express": "^5.2.1",
+    "ffmpeg-static": "^5.3.0",
+    "gtts": "^0.2.1",
     "install": "^0.13.0",
-    "npm": "^11.7.0",
+    "node-opus": "^0.3.3",
+    "npm": "^11.9.0",
     "openai": "^6.15.0",
+    "opusscript": "^0.0.8",
     "undici": "^7.16.0",
     "ws": "^8.18.3"
   }
