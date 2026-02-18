@@ -33,7 +33,7 @@ module.exports = {
             }
 
             queue.nowPlaying = nextSong;
-            const voiceState = client.voiceStates[message.guild.id];
+            const voiceState = client.lavalinkVoiceStates[message.guild.id];
 
             await client.lavalink.updatePlayer(
                 message.guild.id,

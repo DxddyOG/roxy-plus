@@ -778,7 +778,7 @@ module.exports = (client) => {
         for (const [guildId, queue] of queues) {
             if (queue.nowPlaying) {
                 const guild = client.guilds.cache.get(guildId);
-                const voiceState = client.voiceStates ? client.voiceStates[guildId] : null; // Custom voiceStates storage
+                const voiceState = client.lavalinkVoiceStates ? client.lavalinkVoiceStates[guildId] : null; // Custom voiceStates storage
                 // OR check client.guilds.cache.get(guildId).me.voice.channel
 
                 musicData.activeGuildId = guildId;

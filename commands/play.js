@@ -44,7 +44,7 @@ async function playLogic(client, guildId, query) {
         return { success: true, type: 'queue', track };
     } else {
         // Assume bot is joined. Or we fail if no voiceState.
-        const voiceState = client.voiceStates[guildId];
+        const voiceState = client.lavalinkVoiceStates[guildId];
         if (!voiceState || !voiceState.token) {
             return { success: false, reason: 'Bot not connected to voice' };
         }
