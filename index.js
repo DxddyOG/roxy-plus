@@ -1,4 +1,5 @@
 require('dotenv').config();
+require('./logger').initLogger();
 const { Client } = require('discord.js-selfbot-v13');
 const fs = require('fs');
 const path = require('path');
@@ -413,8 +414,16 @@ client.on('messageCreate', async (message) => {
     }
 });
 
-process.on('unhandledRejection', error => {
-    console.error('Unhandled promise rejection:', error);
+process.on('unhandledRejection', (reason, promise) => {
+    console.error('[Anti-Crash] Unhandled Promise Rejection:\n', reason);
+});
+
+process.on('uncaughtException', (error, origin) => {
+    console.error('[Anti-Crash] Uncaught Exception/Catch:\n', error, '\nOrigin:', origin);
+});
+
+process.on('uncaughtExceptionMonitor', (error, origin) => {
+    console.error('[Anti-Crash] Uncaught Exception Monitor:\n', error, '\nOrigin:', origin);
 });
 
 if (!process.env.TOKEN) {
