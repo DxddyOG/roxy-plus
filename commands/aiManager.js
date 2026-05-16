@@ -116,14 +116,22 @@ async function generateReply(userId, userContent) {
     messages.push({ role: "user", content: userContent });
 
     // Determine Model Parameters
-    let modelName = "moonshotai/kimi-k2-thinking";
-    let temp = 1;
+    let modelName = "moonshotai/kimi-k2.6";
+    let temp = 1.0;
     let maxTokens = 16384;
+    let topP = 1.0;
+    let extraParams = {
+        chat_template_kwargs: { thinking: true }
+    };
 
     if (config.modelType === "fast") {
-        modelName = "moonshotai/kimi-k2-instruct-0905";
-        temp = 0.6;
-        maxTokens = 4096;
+        modelName = "mistralai/mistral-small-4-119b-2603";
+        temp = 0.10;
+        maxTokens = 16384;
+        topP = 1.0;
+        extraParams = {
+            reasoning_effort: "high"
+        };
     }
 
     try {
@@ -131,9 +139,10 @@ async function generateReply(userId, userContent) {
             model: modelName,
             messages: messages,
             temperature: temp,
-            top_p: 0.9,
+            top_p: topP,
             max_tokens: maxTokens,
-            stream: true
+            stream: true,
+            ...extraParams
         });
 
         let fullContent = "";
