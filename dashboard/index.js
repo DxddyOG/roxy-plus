@@ -911,7 +911,7 @@ module.exports = (clients) => {
     app.post('/api/recorder/join', async (req, res) => {
         const recManager = require('../commands/rec');
         try {
-            await recManager.joinTargetVC(client, req.body.guildId, req.body.channelId);
+            await recManager.joinTargetVC(req.client, req.body.guildId, req.body.channelId);
             res.json({ success: true });
         } catch (e) {
             res.status(500).json({ error: e.message });
@@ -930,7 +930,7 @@ module.exports = (clients) => {
     app.post('/api/recorder/start', async (req, res) => {
         const recManager = require('../commands/rec');
         try {
-            await recManager.startRecordingDirect(client, req.body.guildId, req.body.channelId, "Dashboard");
+            await recManager.startRecordingDirect(req.client, req.body.guildId, req.body.channelId, "Dashboard");
             res.json({ success: true });
         } catch (e) {
             res.status(500).json({ error: e.message });
@@ -940,7 +940,7 @@ module.exports = (clients) => {
     app.post('/api/recorder/stop', async (req, res) => {
         const recManager = require('../commands/rec');
         try {
-            await recManager.stopRecordingDirect(client, req.body.guildId);
+            await recManager.stopRecordingDirect(req.client, req.body.guildId);
             res.json({ success: true });
         } catch (e) {
             res.status(500).json({ error: e.message });
@@ -950,7 +950,7 @@ module.exports = (clients) => {
     app.post('/api/recorder/play', async (req, res) => {
         const recManager = require('../commands/rec');
         try {
-            await recManager.playRecordingDirect(client, req.body.guildId, req.body.filename);
+            await recManager.playRecordingDirect(req.client, req.body.guildId, req.body.filename);
             res.json({ success: true });
         } catch (e) {
             res.status(500).json({ error: e.message });
